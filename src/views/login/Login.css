@@ -1,0 +1,56 @@
+.login {
+  max-width: 400px;
+  margin: auto;
+  margin-top: 50px;
+  background-color: #969393;
+  border: 1px solid #d23232;
+}
+
+.headingLogin {
+  background-color: #d23232;
+  padding: 15px;
+  text-align: center;
+  font-size: 21px;
+  text-transform: uppercase;
+  color: white;
+  letter-spacing: 1px;
+}
+
+.login>form {
+  padding: 20px;
+}
+
+.usernameLogin , .passwordLogin {
+  display: flex;
+  padding-bottom: 10px;
+}
+
+.usernameLogin-label , .passwordLogin-label {
+  padding : 10px 0px;
+}
+
+.usernameLogin-input , .passwordLogin-input {
+  width: 90%;
+}
+
+.usernameLogin-input>input , .passwordLogin-input>input {
+  width: 90%;
+  float: right;
+}
+
+.buttonLogin>button {
+  width: 100%;
+  padding: 5px;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.errorLogin {
+  background-color: #119c8d;
+  margin-bottom: 10px;
+  padding: 10px;
+  text-align: center;
+  border-radius: 20px;
+  font-size: 17px;
+}
+  
