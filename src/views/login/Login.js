@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
-import { instanceOf } from 'prop-types';
-import { Cookies } from 'react-cookie';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import * as api from '../../api/api';
+import { login } from '../../redux/actions/loginActions';
 
 import './Login.css';
 
 class Login extends Component {
-
-    static propTypes = {
-        cookies: instanceOf(Cookies)
-    };
 
     constructor (props) {
         super();
@@ -21,44 +17,38 @@ class Login extends Component {
         };
     }
 
-    handleSubmit = event => {
-        event.preventDefault();
-
-        if (this.state.username === '' || this.state.password === '') {
-
-            this.setState({
-                loginError: <div className="errorLogin">Please Fill all the details!</div>
-            });
-
-        } else {
-
-            const formData = {
-                username : this.state.username,
-                password : this.state.password
-            };
-
-            api.auth(formData)
-            .then(res => {
-                if (res.status === 200) {
-                    const { cookies } = this.props;
-                    cookies.set('loggedInUser', res.data);
-
-                    this.props.history.push('/dashboard');
-                }
-            }).catch(err => {
-                this.setState({
-                    loginError: <div className="errorLogin">Username/Password Error</div>
-                });
-            });
-
-        }
-    }
-
     handleChange = event => {
         this.setState({
             loginError: '',
             [event.target.name] : event.target.value
         });
+    }
+
+    handleSubmit = event => {
+        event.preventDefault();
+
+        if (this.state.username === '' || this.state.password === '') {
+            this.setState({
+                loginError: <div className="errorLogin">Please Fill all the details!</div>
+            });
+        } else {
+            const formData = {
+                username : this.state.username,
+                password : this.state.password
+            };
+
+            this.props.login(formData);
+        }
+    }
+
+    componentWillReceiveProps = nextProps => {
+        if (nextProps.loggedIn === true) {
+            this.props.history.push('/dashboard');
+        } else if (nextProps.loggedIn === false) {
+            this.setState({
+                loginError: <div className="errorLogin">{nextProps.errorDetails.message}</div>
+            });
+        }
     }
 
     render() {
@@ -115,4 +105,17 @@ class Login extends Component {
     }
 }
 
-export default Login;
+Login.propTypes = {
+    login: PropTypes.func,
+    loggedIn: PropTypes.bool,
+    userDetails: PropTypes.object,
+    errorDetails: PropTypes.object
+};
+
+const mapStateToProps = state => ({
+    loggedIn : state.loginReducer.loggedIn,
+    userDetails : state.loginReducer.userDetails,
+    errorDetails : state.loginReducer.errorDetails
+});
+
+export default connect(mapStateToProps, { login })(Login);

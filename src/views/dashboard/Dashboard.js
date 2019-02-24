@@ -1,25 +1,10 @@
 import React, { Component } from 'react';
-import { instanceOf } from 'prop-types';
-import { Cookies } from 'react-cookie';
-
-import './Dashboard.css';
 
 import Sidebar from '../../components/sidebar/Sidebar';
 
+import './Dashboard.css';
+
 class Dashboard extends Component {
-
-    static propTypes = {
-        cookies: instanceOf(Cookies).isRequired
-    };
-
-    constructor (props) {
-        super();
-        const { cookies } = props;
-        this.state = {
-            userData : cookies.get('loggedInUser')
-        }
-
-    }
 
     render() {
         return(
@@ -27,7 +12,9 @@ class Dashboard extends Component {
                 <Sidebar />
                 <div className="dashboard">
                     <div className="textDashboard">
-                        {this.state.userData}
+                        <h1>Welcome to First App</h1>
+                        <br />
+                        <h3>Your access token is</h3>
                     </div>
                 </div>
             </>
