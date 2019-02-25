@@ -112,10 +112,18 @@ Login.propTypes = {
     errorDetails: PropTypes.object
 };
 
-const mapStateToProps = state => ({
-    loggedIn : state.loginReducer.loggedIn,
-    userDetails : state.loginReducer.userDetails,
-    errorDetails : state.loginReducer.errorDetails
-});
+const mapStateToProps = state => {
+    return {
+        loggedIn : state.loginReducer.loggedIn,
+        userDetails : state.loginReducer.userDetails,
+        errorDetails : state.loginReducer.errorDetails
+    };
+};
 
-export default connect(mapStateToProps, { login })(Login);
+const mapDispatchToProps = dispatch => {
+    return {
+        login: formData => dispatch(login(formData))
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
