@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { login } from '../../redux/actions/loginActions';
+import * as loginActionCreators from '../../redux/actioncreators/loginActionCreators';
 
 import './Login.css';
 
@@ -42,11 +42,13 @@ class Login extends Component {
     }
 
     componentWillReceiveProps = nextProps => {
-        if (nextProps.loggedIn === true) {
+        const { loginDetails : { status, message } } = nextProps;
+
+        if (status === 200) {
             this.props.history.push('/dashboard');
-        } else if (nextProps.loggedIn === false) {
+        } else if (status !== 200) {
             this.setState({
-                loginError: <div className="errorLogin">{nextProps.errorDetails.message}</div>
+                loginError: <div className="errorLogin">{message}</div>
             });
         }
     }
@@ -107,22 +109,18 @@ class Login extends Component {
 
 Login.propTypes = {
     login: PropTypes.func,
-    loggedIn: PropTypes.bool,
-    userDetails: PropTypes.object,
-    errorDetails: PropTypes.object
+    loginDetails: PropTypes.object
 };
 
 const mapStateToProps = state => {
     return {
-        loggedIn : state.loginReducer.loggedIn,
-        userDetails : state.loginReducer.userDetails,
-        errorDetails : state.loginReducer.errorDetails
+        loginDetails : state.loginReducer.loginDetails
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        login: formData => dispatch(login(formData))
+        login: formData => dispatch(loginActionCreators.login(formData))
     };
 };
 

@@ -1,19 +1,45 @@
 import React, { Component } from 'react';
+import { connect } from'react-redux';
+
+import Sidebar from '../../components/sidebar/Sidebar';
+
+import userActionCreators from '../../redux/actioncreators/userActionCreators';
 
 import './User.css';
 
-import Sidebar from '../../components/sidebar/Sidebar';
-import Userlist from '../../components/userlist/Userlist';
-
 class User extends Component {
+
+    componentWillMount = () => {
+        this.props.getUsers();
+    }
+
     render() {
         return(
             <>
                 <Sidebar />
-                <Userlist />
+                <div className="user">
+                    This is a user component
+                </div>
             </>
         );
     }
 }
 
-export default User;
+User.protoTypes = {
+    getUsers: checkPropTypes.func,
+    users: PropTypes.object
+}
+
+const mapStateToProps = state => {
+    return {
+        users: state.userReducer.users
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getUsers: () => dispatch(userActionCreators.getUsers())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(User);

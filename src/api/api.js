@@ -7,5 +7,9 @@ const header = {
 }
 
 export function login (formData) {
-    return axios.post(URI + 'auth', formData, {headers: header})
+    return axios.post(URI + 'auth', formData, { headers: header })
+}
+
+export function getUsers () {
+    return axios.get(URI + 'users', { headers: header });
 }
