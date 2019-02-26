@@ -1,16 +1,39 @@
 import React, { Component } from 'react';
 import { connect } from'react-redux';
+import PropTypes from 'prop-types';
 
 import Sidebar from '../../components/sidebar/Sidebar';
 
-import userActionCreators from '../../redux/actioncreators/userActionCreators';
+import * as userActionCreators from '../../redux/actioncreators/userActionCreators';
 
 import './User.css';
 
 class User extends Component {
 
+    constructor(props) {
+        super();
+        this.state = {
+            users : null,
+            userData: ''
+        }
+    } 
+
     componentWillMount = () => {
         this.props.getUsers();
+    }
+
+    componentWillReceiveProps = nextProps => {
+        const userList = nextProps.users.forEach(userData => {
+            <tr>
+                <td>{userData.firstName + userData.middleName + userData.lastName}</td>
+                <td>{userData.email}</td>
+                <td>{userData.mobile}</td>
+            </tr>
+        });
+
+        this.setState({
+            users: userList
+        })
     }
 
     render() {
@@ -18,7 +41,16 @@ class User extends Component {
             <>
                 <Sidebar />
                 <div className="user">
-                    This is a user component
+                    <table border="1">
+                        <tbody>
+                            <tr>
+                                <td>Full Name</td>
+                                <td>Email</td>
+                                <td>Mobile Number</td>
+                            </tr>
+                            {this.state.users}
+                        </tbody>
+                    </table>
                 </div>
             </>
         );
@@ -26,7 +58,7 @@ class User extends Component {
 }
 
 User.protoTypes = {
-    getUsers: checkPropTypes.func,
+    getUsers: PropTypes.func,
     users: PropTypes.object
 }
 
