@@ -3,9 +3,9 @@ import { Provider} from 'react-redux';
 
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import Login from './views/login/Login';
-import Dashboard from './views/dashboard/Dashboard';
-import User from './views/user/User';
+import Login from './components/login/Login';
+import Dashboard from './components/dashboard/Dashboard';
+import User from './components/user/User';
 
 import store from './redux/store';
 

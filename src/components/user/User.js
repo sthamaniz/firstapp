@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from'react-redux';
 import PropTypes from 'prop-types';
 
-import Sidebar from '../../components/sidebar/Sidebar';
+import Sidebar from '../common/sidebar/Sidebar';
 
 import * as userActionCreators from '../../redux/actioncreators/userActionCreators';
 
@@ -13,34 +13,27 @@ class User extends Component {
     constructor(props) {
         super();
         this.state = {
-            users : null,
-            userData: ''
+            users : null
         }
     } 
 
-    componentWillMount = () => {
+    componentDidMount = () => {
         this.props.getUsers();
     }
 
     componentWillReceiveProps = nextProps => {
-        const userList = nextProps.users.forEach(userData => {
-            <tr>
-                <td>{userData.firstName + userData.middleName + userData.lastName}</td>
-                <td>{userData.email}</td>
-                <td>{userData.mobile}</td>
-            </tr>
-        });
-
         this.setState({
-            users: userList
+            users: nextProps
         })
     }
 
     render() {
+
         return(
             <>
                 <Sidebar />
                 <div className="user">
+                    <button>Add New User</button>
                     <table border="1">
                         <tbody>
                             <tr>
@@ -48,7 +41,14 @@ class User extends Component {
                                 <td>Email</td>
                                 <td>Mobile Number</td>
                             </tr>
-                            {this.state.users}
+                            {this.state.users.map((userList, index) => {
+                                return (<tr key={index}>
+                                            <td>{userList.firstName +' '+ userList.middleName +' '+ userList.lastName}</td>
+                                            <td>{userList.email}</td>
+                                            <td>{userList.mobile}</td>
+                                        </tr>)
+                            }
+                            )}
                         </tbody>
                     </table>
                 </div>

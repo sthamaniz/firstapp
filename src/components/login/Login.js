@@ -45,6 +45,7 @@ class Login extends Component {
         const { loginDetails : { status, message } } = nextProps;
 
         if (status === 200) {
+            console.log(nextProps.loginDetails);
             this.props.history.push('/dashboard');
         } else if (status !== 200) {
             this.setState({

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Sidebar from '../../components/sidebar/Sidebar';
+import Sidebar from '../common/sidebar/Sidebar';
 
 import './Dashboard.css';
 
