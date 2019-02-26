@@ -10,24 +10,15 @@ import './User.css';
 
 class User extends Component {
 
-    constructor(props) {
-        super();
-        this.state = {
-            users : null
-        }
-    } 
-
     componentDidMount = () => {
         this.props.getUsers();
     }
 
-    componentWillReceiveProps = nextProps => {
-        this.setState({
-            users: nextProps
-        })
-    }
-
     render() {
+
+        const { users } = this.props;
+
+        if (!users) return (<span>loading....</span>);
 
         return(
             <>
@@ -41,11 +32,11 @@ class User extends Component {
                                 <td>Email</td>
                                 <td>Mobile Number</td>
                             </tr>
-                            {this.state.users.map((userList, index) => {
+                            {users.map((user, index) => {
                                 return (<tr key={index}>
-                                            <td>{userList.firstName +' '+ userList.middleName +' '+ userList.lastName}</td>
-                                            <td>{userList.email}</td>
-                                            <td>{userList.mobile}</td>
+                                            <td>{user.firstName +' '+ user.middleName +' '+ user.lastName}</td>
+                                            <td>{user.email}</td>
+                                            <td>{user.mobile}</td>
                                         </tr>)
                             }
                             )}
