@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from'react-redux';
 import PropTypes from 'prop-types';
 
@@ -24,24 +25,30 @@ class User extends Component {
             <>
                 <Sidebar />
                 <div className="user">
-                    <button>Add New User</button>
-                    <table border="1">
-                        <tbody>
-                            <tr>
-                                <td>Full Name</td>
-                                <td>Email</td>
-                                <td>Mobile Number</td>
-                            </tr>
-                            {users.map((user, index) => {
-                                return (<tr key={index}>
-                                            <td>{user.firstName +' '+ user.middleName +' '+ user.lastName}</td>
-                                            <td>{user.email}</td>
-                                            <td>{user.mobile}</td>
-                                        </tr>)
-                            }
-                            )}
-                        </tbody>
-                    </table>
+                    <div className="userContent">
+                        <Link to={'/users/add'}><button>Add New User</button></Link>
+                        <div className="userList">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>S. No.</td>
+                                        <td>Full Name</td>
+                                        <td>Email</td>
+                                        <td>Mobile Number</td>
+                                    </tr>
+                                    {users.map((user, index) => {
+                                        return (<tr key={index++}>
+                                                    <td>{index}</td>
+                                                    <td>{user.firstName +' '+ user.middleName +' '+ user.lastName}</td>
+                                                    <td>{user.email}</td>
+                                                    <td>{user.mobile}</td>
+                                                </tr>)
+                                    }
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </>
         );

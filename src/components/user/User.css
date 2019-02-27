@@ -4,3 +4,21 @@
     background-color:#969393;
     float:right;
 }
+
+.userContent {
+    padding: 10px;
+}
+
+.userList {
+    margin-top: 20px;
+}
+
+.userList>table {
+    width: 90%;
+    margin: auto;
+    border: 1px solid black;
+}
+
+.userList > table,tr,td {
+    border: 1px solid black;
+}

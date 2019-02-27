@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import * as loginActionCreators from '../../redux/actioncreators/loginActionCreators';
 
+import { AppBar, Toolbar, Typography, TextField, Button } from '@material-ui/core';
+
 import './Login.css';
 
 class Login extends Component {
@@ -58,48 +60,46 @@ class Login extends Component {
         return(
             <>
                 <div className="login">
-                    <div className="headingLogin">
-                        login
-                    </div>
+                    <AppBar position="static" color="primary">
+                        <Toolbar>
+                            <Typography variant="h6" color="inherit">
+                                LOGIN
+                            </Typography>
+                        </Toolbar>
+                    </AppBar>
+
                     <form onSubmit={this.handleSubmit}>
                         {this.state.loginError}
                         <div className="usernameLogin">
-                            <div className="usernameLogin-label">
-                                <label>Username</label>
-                            </div>
-                            <div className="usernameLogin-input">
-                                <input
-                                autoFocus
+                            <TextField
+                                required
+                                label="User Name"
                                 name="username"
                                 type="text"
                                 value={this.state.username}
-                                placeholder="Username"
                                 onChange={this.handleChange}
-                                />
-                            </div>
+                            />
                         </div>
                         
                         <div className="passwordLogin">
-                            <div className="passwordLogin-label">
-                                <label>Password</label>
-                            </div>
-                            <div className="passwordLogin-input">
-                                <input
+                            <TextField
+                                required
+                                label="Password"
                                 name="password"
                                 type="password"
                                 value={this.state.password}
-                                placeholder="Password"
                                 onChange={this.handleChange}
-                                />
-                            </div>
+                            />
                         </div>
 
                         <div className="buttonLogin">
-                            <button
+                            <Button 
+                                variant="contained"
+                                color="primary"
                                 type="submit"
                             >
                                 Login
-                            </button>
+                            </Button>
                         </div>
                     </form>
                 </div>

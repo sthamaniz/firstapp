@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Login from './components/login/Login';
 import Dashboard from './components/dashboard/Dashboard';
 import User from './components/user/User';
+import AddUser from './components/user/AddUser';
 
 import store from './redux/store';
 
@@ -15,6 +16,7 @@ class App extends Component {
       <Provider store={store}>
         <BrowserRouter>
           <Switch>
+            <Route path={'/users/add'} component={AddUser} />
             <Route path={'/users'} component={User} />
             <Route path={'/dashboard'} component={Dashboard} />
             <Route path={'/'} component={Login} />
@@ -23,6 +25,6 @@ class App extends Component {
       </Provider>
     );
   }
-}
+} 
 
 export default App;
