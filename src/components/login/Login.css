@@ -2,12 +2,11 @@
   margin: auto;
   width: 400px;
   border: 1px solid black;
-  text-align: center;
   margin-top: 100px;
 }
 
 .usernameLogin , .passwordLogin {
-  padding: 20px;
+  padding: 10px 20px;
 }
 
 .usernameLogin>div , .passwordLogin>div {
