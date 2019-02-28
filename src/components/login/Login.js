@@ -2,11 +2,31 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { withStyles } from '@material-ui/core/styles';
+import { Paper, AppBar, Toolbar, Typography, TextField, Button } from '@material-ui/core';
+
 import * as loginActionCreators from '../../redux/actioncreators/loginActionCreators';
 
-import { AppBar, Toolbar, Typography, TextField, Button } from '@material-ui/core';
-
 import './Login.css';
+
+
+const styles = theme => ({
+    root: {
+        margin: 'auto',
+        width: '400px',
+        border: '1px solid black',
+        marginTop: '100px'
+    },
+    inputWrapper: {
+        padding: '10px 20px'
+    },
+    input : {
+        width: '100%'
+    },
+    submitButton: {
+        padding: '10px 20px'
+    }
+});
 
 class Login extends Component {
 
@@ -57,9 +77,12 @@ class Login extends Component {
     }
 
     render() {
+
+        const { classes } = this.props;
+
         return(
             <>
-                <div className="login">
+                <Paper className={classes.root}>
                     <AppBar position="static" color="primary">
                         <Toolbar>
                             <Typography variant="h6" color="inherit">
@@ -70,7 +93,7 @@ class Login extends Component {
 
                     <form onSubmit={this.handleSubmit}>
                         {this.state.loginError}
-                        <div className="usernameLogin">
+                        <div className={classes.inputWrapper}>
                             <TextField
                                 required
                                 label="User Name"
@@ -78,10 +101,11 @@ class Login extends Component {
                                 type="text"
                                 value={this.state.username}
                                 onChange={this.handleChange}
+                                className={classes.input}
                             />
                         </div>
                         
-                        <div className="passwordLogin">
+                        <div className={classes.inputWrapper}>
                             <TextField
                                 required
                                 label="Password"
@@ -89,10 +113,11 @@ class Login extends Component {
                                 type="password"
                                 value={this.state.password}
                                 onChange={this.handleChange}
+                                className={classes.input}
                             />
                         </div>
 
-                        <div className="buttonLogin">
+                        <div className={classes.submitButton}>
                             <Button 
                                 variant="contained"
                                 color="primary"
@@ -102,7 +127,7 @@ class Login extends Component {
                             </Button>
                         </div>
                     </form>
-                </div>
+                </Paper>
             </>
         );
     }
@@ -110,7 +135,8 @@ class Login extends Component {
 
 Login.propTypes = {
     login: PropTypes.func,
-    loginDetails: PropTypes.object
+    loginDetails: PropTypes.object,
+    classes: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
@@ -125,4 +151,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login));

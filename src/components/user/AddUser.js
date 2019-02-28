@@ -2,9 +2,39 @@ import React, { Component } from 'react';
 import { connect } from'react-redux';
 import PropTypes from 'prop-types';
 
+import { withStyles } from '@material-ui/core/styles';
+import { AppBar, Toolbar, Typography, Paper, TextField, Button } from '@material-ui/core';
+
 import Sidebar from '../common/sidebar/Sidebar';
 
-import './User.css';
+import * as userActionCreators from '../../redux/actioncreators/userActionCreators';
+
+
+const styles = theme => ({
+    root: {
+        width: '80%',
+        height: '100vh',
+        backgroundColor: '#76abf3',
+        float: 'right',
+        padding: '10px'
+    },
+    addForm: {
+        width: '100%',
+        marginTop: theme.spacing.unit * 3,
+        overflowX: 'auto',
+        margin: 'auto',
+        padding: '10px'
+    },
+    inputWrapper: {
+        padding: '10px 20px'
+    },
+    input : {
+        width: '100%'
+    },
+    submitButton: {
+        padding: '10px 20px'
+    }
+})
 
 class AddUser extends Component {
 
@@ -12,12 +42,13 @@ class AddUser extends Component {
         super(props);
         this.state = {
             username: '',
-            passowrd: '',
+            password: '',
             firstName: '',
             middleName: '',
             lastName: '',
             email: '',
-            mobile: ''
+            mobile: '',
+            addError: ''
         }
     }
 
@@ -27,144 +58,171 @@ class AddUser extends Component {
         });
     }
 
+    handleSubmit = event => {
+        event.preventDefault();
+
+        const { username, password, firstName, middleName, lastName, email, mobile } = this.state;
+
+       
+
+        if (username === '' ||
+            password === '' ||
+            firstName === '' ||
+            middleName === '' ||
+            lastName === '' ||
+            email === '' ||
+            mobile === '' )
+        {
+            this.setState({
+                addError: <div className="errorLogin">Please Fill all the details!</div>
+            })
+        } else {
+            const formData = { username, password, firstName, middleName, lastName, email, mobile };
+            this.props.addUser(formData);
+        }
+
+    }
+
+    componentWillReceiveProps = nextProps => {
+        if (nextProps.user) {
+            this.props.history.push('/users');
+        }
+    }
+
     render() {
+        
+        const { classes } = this.props;
+
         return (
             <>
                 <Sidebar />
-                <div className="user">
-                    <div className="userContent">
+                <div className={classes.root}>
+                    <AppBar position="static" color="default">
+                        <Toolbar>
+                            <Typography variant="h6" color="inherit">
+                                Add User
+                            </Typography>
+                        </Toolbar>
+                    </AppBar>
+                    <Paper className={classes.addForm}>
                         <form onSubmit={this.handleSubmit}>
-                            <div className="usernameUser">
-                                <div className="usernameUser-label">
-                                    <label>Username</label>
-                                </div>
-                                <div className="usernameUser-input">
-                                    <input
-                                    autoFocus
+                            {this.state.addError}
+                            <div className={classes.inputWrapper}>
+                                <TextField
+                                    
+                                    label="User Name"
                                     name="username"
                                     type="text"
                                     value={this.state.username}
-                                    placeholder="Username"
                                     onChange={this.handleChange}
-                                    />
-                                </div>
+                                    className={classes.input}
+                                />
                             </div>
                             
-                            <div className="passwordUser">
-                                <div className="passwordUser-label">
-                                    <label>Password</label>
-                                </div>
-                                <div className="passwordUser-input">
-                                    <input
-                                    name="password"
-                                    type="password"
-                                    value={this.state.password}
-                                    placeholder="Password"
-                                    onChange={this.handleChange}
-                                    />
-                                </div>
+                            <div className={classes.inputWrapper}>
+                            <TextField
+                                
+                                label="Password"
+                                name="password"
+                                type="password"
+                                value={this.state.password}
+                                onChange={this.handleChange}
+                                className={classes.input}
+                            />
                             </div>
 
-                            <div className="firstNameUser">
-                                <div className="firstNameUser-label">
-                                    <label>First Name</label>
-                                </div>
-                                <div className="firstNameUser-input">
-                                    <input
+                            <div className={classes.inputWrapper}>
+                                <TextField
+                                    
+                                    label="First Name"
                                     name="firstName"
                                     type="text"
                                     value={this.state.firstName}
-                                    placeholder="firstName"
                                     onChange={this.handleChange}
-                                    />
-                                </div>
+                                    className={classes.input}
+                                />
                             </div>
 
-                            <div className="middleNameUser">
-                                <div className="middleNameUser-label">
-                                    <label>Middle Name</label>
-                                </div>
-                                <div className="middleNameUser-input">
-                                    <input
+                            <div className={classes.inputWrapper}>
+                                <TextField
+                                    
+                                    label="Middle Name"
                                     name="middleName"
                                     type="text"
                                     value={this.state.middleName}
-                                    placeholder="middleName"
                                     onChange={this.handleChange}
-                                    />
-                                </div>
+                                    className={classes.input}
+                                />
                             </div>
 
-                            <div className="lastNameUser">
-                                <div className="lastNameUser-label">
-                                    <label>Last Name</label>
-                                </div>
-                                <div className="lastNameUser-input">
-                                    <input
+                            <div className={classes.inputWrapper}>
+                                <TextField
+                                    
+                                    label="Last Name"
                                     name="lastName"
                                     type="text"
                                     value={this.state.lastName}
-                                    placeholder="lastName"
                                     onChange={this.handleChange}
-                                    />
-                                </div>
+                                    className={classes.input}
+                                />
                             </div>
 
-                            <div className="emailUser">
-                                <div className="emailUser-label">
-                                    <label>Email</label>
-                                </div>
-                                <div className="emailUser-input">
-                                    <input
+                            <div className={classes.inputWrapper}>
+                                <TextField
+                                    
+                                    label="E-mail"
                                     name="email"
                                     type="email"
                                     value={this.state.email}
-                                    placeholder="email"
                                     onChange={this.handleChange}
-                                    />
-                                </div>
+                                    className={classes.input}
+                                />
                             </div>
 
-                            <div className="mobileUser">
-                                <div className="mobileUser-label">
-                                    <label>Mobile Number</label>
-                                </div>
-                                <div className="mobileUser-input">
-                                    <input
+                            <div className={classes.inputWrapper}>
+                                <TextField
+                                    
+                                    label="Mobile"
                                     name="mobile"
                                     type="text"
                                     value={this.state.mobile}
-                                    placeholder="mobile"
                                     onChange={this.handleChange}
-                                    />
-                                </div>
+                                    className={classes.input}
+                                />
                             </div>
 
-                            <div className="buttonUser">
-                                <button
+                            <div className={classes.submitButton}>
+                                <Button
+                                    variant="contained"
                                     type="submit"
-                                >
+                                    >
                                     Add User
-                                </button>
+                                </Button>
                             </div>
                         </form>
-                    </div>
+                    </Paper>
                 </div>
             </>
         );
     }
 }
 
+AddUser.propTypes = {
+    addUser: PropTypes.func,
+    user: PropTypes.object,
+    classes: PropTypes.object.isRequired
+}
+
 const mapStateToProps = state => {
     return {
-
+          user: state.userReducer.user  
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-
+        addUser: formData => dispatch(userActionCreators.addUser(formData))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddUser);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AddUser));

@@ -1,24 +1,19 @@
 .user {
     width: 80%;
     height: 100vh;
-    background-color:#969393;
+    background-color:#76abf3;
     float:right;
-}
-
-.userContent {
     padding: 10px;
 }
 
-.userList {
-    margin-top: 20px;
+.usernameUser , .passwordUser , .firstNameUser , .middleNameUser , .lastNameUser , .emailUser , .mobileUser {
+    padding: 10px 20px;
 }
 
-.userList>table {
-    width: 90%;
-    margin: auto;
-    border: 1px solid black;
-}
+.usernameUser>div , .passwordUser>div , .firstNameUser>div , .middleNameUser>div , .lastNameUser>div , .emailUser>div , .mobileUser>div {
+    width: 100%;
+}   
 
-.userList > table,tr,td {
-    border: 1px solid black;
+.buttonUser {
+    padding: 20px;
 }

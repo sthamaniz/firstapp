@@ -1,29 +1,26 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import { CssBaseline, Drawer, List, Divider, ListItem, ListItemText } from '@material-ui/core';
 
 const drawerWidth = '20%';
 
 const styles = theme => ({
-  root: {
-    display: 'flex',
-  },
   drawer: {
     width: drawerWidth,
-    flexShrink: 0,
+    flexShrink: 0
   },
-  drawerPaper: {
-    width: drawerWidth,
+  heading: {
+    padding: '25px',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: 'black',
+    backgroundColor: 'grey'
   },
+  link: {
+    textDecoration: 'none'
+  }
 });
 
 const Sidebar = (props) =>{
@@ -31,27 +28,36 @@ const Sidebar = (props) =>{
   const { classes } = props;
 
   return (
-    <div className={classes.root}>
+    <>
       <CssBaseline />
       <Drawer
         className={classes.drawer}
         variant="permanent"
         classes={{
-          paper: classes.drawerPaper,
+          paper: classes.drawer,
         }}
         anchor="left"
       >
-        <div className={classes.heading                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 } />
+        <Link to={'/dashboard'} className={classes.link}>
+          <div className={classes.heading} >
+            FIRST APP
+          </div>
+        </Link>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemText primary={text} />
+          <Link to={'/users'} className={classes.link}>
+            <ListItem button key={'USERS'}>
+              <ListItemText primary={'USERS'} />
             </ListItem>
-          ))}
+          </Link>
+          <Link to={'/admins'} className={classes.link}>
+            <ListItem button key={'ADMINS'}>
+              <ListItemText primary={'ADMINS'} />
+            </ListItem>
+          </Link>
         </List>
       </Drawer>
-    </div>
+    </>
   );
 }
 

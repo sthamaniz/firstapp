@@ -1,4 +1,4 @@
-import { GET_USERS } from '../actions/types';
+import { GET_USERS, ADD_USER } from '../actions/types';
 
 export default function (state = [], action) {
     const { type, payload } = action;
@@ -8,6 +8,11 @@ export default function (state = [], action) {
                 return {
                     ...state,
                     users: payload
+                };
+        case ADD_USER :
+                return {
+                    ...state,
+                    user: payload
                 };
         default:
             return state;
