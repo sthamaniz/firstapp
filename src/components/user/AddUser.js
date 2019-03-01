@@ -60,6 +60,7 @@ class AddUser extends Component {
 
     handleChange = (event) => {
         this.setState({
+            addError: '',
             [event.target.name] : event.target.value
         });
     }

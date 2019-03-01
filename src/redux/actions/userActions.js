@@ -1,6 +1,6 @@
 import { GET_USERS, ADD_USER } from './types';
 
-export const getUsers = (users) => {
+export const getUsers = users => {
     return {
         type: GET_USERS,
         payload: users
