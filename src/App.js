@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Provider} from 'react-redux';
-
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Login from './components/login/Login';

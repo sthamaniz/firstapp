@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from'react-redux';
-import PropTypes from 'prop-types';
+import PropTypes, { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie'
 
 import { withStyles } from '@material-ui/core/styles';
 import TableRow from '@material-ui/core/TableRow';
@@ -10,8 +11,6 @@ import { Button, AppBar, Toolbar, Typography, Table, TableBody, TableCell, Table
 import Sidebar from '../common/sidebar/Sidebar';
 
 import * as userActionCreators from '../../redux/actioncreators/userActionCreators';
-
-import './User.css';
 
 
 const styles = theme => ({
@@ -41,8 +40,15 @@ const styles = theme => ({
 
 class User extends Component {
 
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+    };
+
     componentDidMount = () => {
-        this.props.getUsers();
+        const { cookies } = this.props;
+        const accessToken = cookies.get('loginDetail').accesstoken;
+
+        this.props.getUsers(accessToken);
     }
 
     render() {
@@ -55,7 +61,7 @@ class User extends Component {
             <>
                 <Sidebar />
                 <div className={classes.root}>
-                    <AppBar position="static" color="defaultablecellt">
+                    <AppBar position="static" color="default">
                         <Toolbar>
                             <Typography variant="h6" color="inherit">
                                 Users
@@ -111,8 +117,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getUsers: () => dispatch(userActionCreators.getUsers())
+        getUsers: (accessToken) => dispatch(userActionCreators.getUsers(accessToken))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(User));
+export default connect(
+    mapStateToProps, mapDispatchToProps
+)(
+    withStyles(styles)(withCookies(User))
+);

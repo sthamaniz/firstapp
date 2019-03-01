@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
 
 import { withStyles } from '@material-ui/core/styles';
 
 import Sidebar from '../common/sidebar/Sidebar';
+
 
 const styles = theme => ({
     root: {
@@ -23,6 +25,20 @@ const styles = theme => ({
 
 class Dashboard extends Component {
 
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+    };
+
+    constructor(props) {
+        super(props);
+
+        const { cookies } = props;
+
+        this.state = {
+            accessToken: cookies.get('loginDetail').accesstoken
+        }
+    }
+
     render() {
 
         const { classes } = this.props;
@@ -34,7 +50,7 @@ class Dashboard extends Component {
                     <div className={classes.dashboardWrapper}>
                         <h1>Welcome to First App</h1>
                         <br />
-                        <h3>Your access token is</h3>
+                        <h3>Your access token is {this.state.accessToken}</h3>
                     </div>
                 </div>
             </>
@@ -47,4 +63,4 @@ Dashboard.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Dashboard);
+export default withStyles(styles)(withCookies(Dashboard));

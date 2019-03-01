@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import PropTypes, { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
 
 import { withStyles } from '@material-ui/core/styles';
 import { Paper, AppBar, Toolbar, Typography, TextField, Button } from '@material-ui/core';
 
 import * as loginActionCreators from '../../redux/actioncreators/loginActionCreators';
-
-import './Login.css';
 
 
 const styles = theme => ({
@@ -29,6 +28,10 @@ const styles = theme => ({
 });
 
 class Login extends Component {
+
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+    };
 
     constructor (props) {
         super();
@@ -59,19 +62,26 @@ class Login extends Component {
                 password : this.state.password
             };
 
+            this.setState({
+                loginError: <div className="errorLogin">Loggin in....</div>
+            })
+
             this.props.login(formData);
         }
     }
 
     componentWillReceiveProps = nextProps => {
-        const { loginDetails : { status, message } } = nextProps;
+        const { cookies } = this.props;
 
-        if (status === 200) {
-            console.log(nextProps.loginDetails);
+        const { loginDetails } = nextProps;
+
+        if (loginDetails.status === 200) {
+            cookies.set('loginDetail', loginDetails);
+
             this.props.history.push('/dashboard');
-        } else if (status !== 200) {
+        } else if (loginDetails.status !== 200) {
             this.setState({
-                loginError: <div className="errorLogin">{message}</div>
+                loginError: <div className="errorLogin">{loginDetails.message}</div>
             });
         }
     }
@@ -151,4 +161,8 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login));
+export default connect(
+    mapStateToProps, mapDispatchToProps
+)(
+    withStyles(styles)(withCookies(Login))
+);

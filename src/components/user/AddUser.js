@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from'react-redux';
-import PropTypes from 'prop-types';
+import PropTypes, { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
 
 import { withStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Typography, Paper, TextField, Button } from '@material-ui/core';
@@ -38,8 +39,13 @@ const styles = theme => ({
 
 class AddUser extends Component {
 
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+    };
+
     constructor(props) {
         super(props);
+        
         this.state = {
             username: '',
             password: '',
@@ -62,7 +68,8 @@ class AddUser extends Component {
         event.preventDefault();
 
         const { username, password, firstName, middleName, lastName, email, mobile } = this.state;
-
+        const { cookies } = this.props;
+        const accessToken = cookies.get('loginDetail').accesstoken;
        
 
         if (username === '' ||
@@ -78,7 +85,7 @@ class AddUser extends Component {
             })
         } else {
             const formData = { username, password, firstName, middleName, lastName, email, mobile };
-            this.props.addUser(formData);
+            this.props.addUser(accessToken,formData);
         }
 
     }
@@ -221,8 +228,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        addUser: formData => dispatch(userActionCreators.addUser(formData))
+        addUser: (accessToken,formData) => dispatch(userActionCreators.addUser(accessToken,formData))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AddUser));
+export default connect(
+    mapStateToProps, mapDispatchToProps
+)(
+    withStyles(styles)(withCookies(AddUser))
+);
